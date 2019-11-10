@@ -1,0 +1,11 @@
+{
+  "name": "feudal",
+  "version": "1.0.0",
+  "description": "The 1969 board game Feudal",
+  "main": "board.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "matt einarson",
+  "license": "ISC"
+}

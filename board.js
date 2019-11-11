@@ -69,128 +69,11 @@ const map_four = rotateMatrixCounterClockwise(layout);
 
 
 //Board logic
-class Board{
-  constructor (map_choice) {
-    this.current_turn = 1;
-    this.board = this.create_board(map_choice);
-    };
 
-    create_board (map_choice) {
-      let m = [];
-      for(var i = 0; i < map_choice.length; i++){
-        m[i] = []
-        for(var j = 0; j < map_choice.length; j++) {
-          m[i][j] = new Space(map_choice[i][j],j,i);
-        }
-      }
-      return m;
-    };
-    };
 const empty = 0;
 const black = 1;
 const white = 2;
 
-//Individual space logic
-class Space {
-  constructor(tile, x, y) {
-    this.occupied = 0;
-    this.terrain = tile;
-    this.x = x;
-    this.y = y;
-  };
-};
-
-
-//Individual piece logic
-class Piece {
-  //needs piece type, piece x and y coordinates for initial placement
-  constructor(unit,y,x,c){
-    this.type = unit.type;
-    this.noble = unit.noble;
-    this.mounted = unit.mounted;
-    this.ranged = unit.ranged;
-    this.straight = unit.straight;
-    this.diagonal = unit.diagonal;
-    this.move_status = 0;
-    this.x = x;
-    this.y = y;
-    this.spaces_moved_hv = 0;
-    this.spaces_moved_d = 0;
-    this.color = c;
-  };
-  //Change from unmoved to moved
-  change_move_status () {
-    if(this.spaces_moved_hv > 0 || this.spaces_moved_d > 0){
-      this.move_status =
-        this.move_status == 0 ? 1 : 0;
-  }
-  };
-  //Check to see if the piece can pass through or into a space
-  pass(space) {
-    if(space.occupied === this.color){
-      return false;
-    } else if(space.terrain === 3){
-        console.log('Cannot enter mountains')
-        return false;
-    } else if(this.type === true && space.terrain === 2){
-        console.log('Mounted units cannot enter rough terrain');
-        return false;
-    }
-    else {
-      return true;
-    }
-  };
-
-    //check if we can capture
-    capture_check(space) {
-      if(space.occupied === this.color){
-        return false;
-      } else {
-        return true;
-      };
-    };
-
-    //capture a space
-    capture(space) {
-      //add some code to remove the piece
-      console.log('Piece Captured');
-      this.x = space.x;
-      this.y = space.y;
-      space.occupied = this.color;
-    };
-    //Occupy a space
-    occupy(space) {
-          this.x = space.x;
-          this.y = space.y;
-          space.occupied = this.color;
-    };
-
-  //Move event
-  move(space){
-    if(this.pass(space)) {
-      this.occupy(space);
-      console.log(`Moved ${this.id} to [${space.x},${space.y}]`)
-    } else {
-        if(this.capture_check(space)){
-          capture(space);
-          console.log(`[${space.x},${space.y}] Captured`);
-        } else {
-          console.log('Cannot move, occupied by same color')
-        }
-    };
-  };
-};
-
-class Archer extends Piece {
-
-  shoot(space) {
-    console.log(`Shoot into space [${space.x},${space.y}]`);
-  };
-};
-
-class Squire extends Piece {
-
-  };
 
 
 //Piece data, consider exporting to json file for better visibility, or even to tweak in the future.
@@ -259,8 +142,160 @@ const archer  = {
   diagonal: 3
 };
 
+//The list of units to be generated
+const unit_list = [king,duke,prince,knight,knight,
+  knight,knight,knight,sergeant,sergeant,
+  sergeant,sergeant,squire,squire,archer,
+  archer,pikeman,pikeman,pikeman,pikeman,
+  pikeman,pikeman,pikeman,pikeman];
+
+
+class Board {
+
+  constructor (map_choice) {
+    this.current_turn = 1;
+    this.board = this.create_board(map_choice);
+    this.roster_b = [];
+    this.roster_w = [];
+    this.black_units = this.create_pieces(1);
+    this.white_units = this.create_pieces(2);
+    };
+
+    create_board (map_choice) {
+      let m = [];
+      for(var i = 0; i < map_choice.length; i++){
+        m[i] = []
+        for(var j = 0; j < map_choice.length; j++) {
+          m[i][j] = new Space(map_choice[i][j],j,i);
+        };
+      };
+      return m;
+      };
+
+      create_pieces (color_id) {
+
+          for(var i = 0; i < unit_list.length; i++){
+            if(unit_list[i] === 'archer'){
+              this.roster_b.push(new Archer(archer, 0, 0, color_id, i));
+            } else {
+              this.roster_b.push(new Piece(unit_list[i], 0, 0, color_id, i));
+            };
+          };
+      };
+
+      //We need a castle piece, and the movement restrictions that it adds. try adding it to the terrain matrix so that the matrix isn't technically even, then just not rendering the wall tiles in the presentation layer.
+  };
+
+
+//Individual space logic
+class Space {
+  constructor(tile, x, y) {
+    this.occupied = 0;
+    this.terrain = tile;
+    this.x = x;
+    this.y = y;
+  };
+};
+
+
+//Individual piece logic
+class Piece {
+  constructor(unit,y,x,c,id){
+    this.id = id;
+    this.type = unit.type;
+    this.noble = unit.noble;
+    this.mounted = unit.mounted;
+    this.ranged = unit.ranged;
+    this.straight = unit.straight;
+    this.diagonal = unit.diagonal;
+    this.move_status = 0;
+    this.x = x;
+    this.y = y;
+    this.spaces_moved_hv = 0;
+    this.spaces_moved_d = 0;
+    this.color = c;
+  };
+
+  //Change from unmoved to moved
+  change_move_status () {
+    if(this.spaces_moved_hv > 0 || this.spaces_moved_d > 0){
+      this.move_status =
+        this.move_status == 0 ? 1 : 0;
+      }
+  };
+
+  //Check to see if the piece can pass through or into a space
+  pass(space) {
+    if(space.occupied === this.color){
+      return false;
+    } else if(space.terrain === 3){
+        console.log('Cannot enter mountains')
+        return false;
+    } else if(this.type === true && space.terrain === 2){
+        console.log('Mounted units cannot enter rough terrain');
+        return false;
+    }
+    else {
+      return true;
+    }
+  };
+
+    //check if we can capture
+    capture_check(space) {
+      if(space.occupied === this.color){
+        return false;
+      } else {
+        return true;
+      };
+    };
+
+    //capture a space
+    capture(space) {
+      //add some code to remove the piece
+      console.log('Piece Captured');
+      this.x = space.x;
+      this.y = space.y;
+      space.occupied = this.color;
+    };
+
+    //Occupy a space
+    occupy(space) {
+          this.x = space.x;
+          this.y = space.y;
+          space.occupied = this.color;
+    };
+
+  //Move event
+  move(space){
+    if(this.pass(space)) {
+      this.occupy(space);
+      console.log(`Moved ${this.id} to [${space.x},${space.y}]`)
+    } else {
+        if(this.capture_check(space)){
+          capture(space);
+          console.log(`[${space.x},${space.y}] Captured`);
+        } else {
+          console.log('Cannot move, occupied by same color')
+        }
+    };
+  };
+};
+
+//Archer class needs a shoot function.
+class Archer extends Piece {
+  shoot(space) {
+    console.log(`Shoot into space [${space.x},${space.y}]`);
+  };
+};
+
+class Squire extends Piece {
+  //will need to override the whole pass function that the other pieces use to account for its mandatory horizontal and diagonal movement
+  };
+
 
 //Test functions
+
+/*
 game = new Board(map_one);
 console.log(game.board);
 player = new Piece(knight,1,3,1);
@@ -270,7 +305,7 @@ console.log(player_two);
 player.move(game.board[1][2]);
 player_two.move(game.board[1][2]);
 //console.log(player);
+*/
 
-const place = (piece) => {
-  new Piece()
-};
+game = new Board(map_one);
+console.log(game.roster_b);

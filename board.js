@@ -242,10 +242,98 @@ class Piece {
 
     //check if we can capture
     capture_check(space) {
-      if(space.occupied === this.color){
+      if(space.occupied === this.color) {
         return false;
+      } else if(space.occupied === 0) {
+          return false;
       } else {
         return true;
+      };
+    };
+
+    //within horizontal & vertical range check
+    check_hv_range(space) {
+      const xd = Math.abs(this.x - space.x);
+      const yd = Math.abs(this.y - space.y);
+
+      if(xd <= this.straight || yd <= this.stright) {
+        return true;
+      } else {
+        return false;
+      };
+    };
+
+    //validate a horizonal or vertical move
+    //Would like to refactor this in the future.
+    hv_move_val(space) {
+      if(this.check_hv_range(space)) {
+        if(space.x > this.x) {
+          for(let i = this.x + 1; i < space.x + 1; i++) {
+            if(this.pass(game.board[this.y][i])) {
+              if(this.capture_check(game.board[this.y][i])) {
+                console.log('can capture');
+                return false;
+              } else {
+                console.log('Pass');
+              };
+              } else {
+                  console.log('test failed');
+                  return false;
+                };
+              };
+              return true;
+        } else if (space.x < this.x) {
+            for(let i = this.x - 1; i < space.x - 1; i--) {
+              if(this.pass(game.board[this.y][i])) {
+                if(this.capture_check(game.board[this.y][i])) {
+                  console.log('can capture');
+                  return false;
+                } else {
+                  console.log('Pass');
+                };
+            } else {
+                console.log('test failed');
+                return false;
+                };
+            };
+            return true;
+        } else if (space.y > this.y) {
+            for(let i = this.y + 1; i < space.y + 1; i++) {
+              if(this.pass(game.board[i][this.x])) {
+                if(this.capture_check(game.board[i][this.x])) {
+                  console.log('can capture');
+                  return false;
+                } else {
+                  console.log('Pass');
+                };
+              } else {
+                  console.log('test failed');
+                  return false;
+              };
+            };
+            return true;
+          } else if (space.y < this.y) {
+              for(let i = this.y - 1; i < space.y - 1; i--) {
+                if(this.pass(game.board[i][this.x])) {
+                  if(this.capture_check(game.board[i][this.x])) {
+                    console.log('can capture');
+                    return false;
+                } else {
+                  console.log('Pass');
+                };
+              } else {
+                    console.log('test failed');
+                    return false;
+                };
+              };
+              return true;
+          } else {
+            console.log('Error in move validation');
+            return false;
+          };
+        } else {
+          console.log('Out of range');
+          return false;
       };
     };
 
@@ -295,17 +383,18 @@ class Squire extends Piece {
 
 //Test functions
 
-/*
+
 game = new Board(map_one);
 console.log(game.board);
-player = new Piece(knight,1,3,1);
+player = new Piece(knight,1,1,1);
 console.log(player);
 player_two = new Archer(archer,1,4,1);
 console.log(player_two);
-player.move(game.board[1][2]);
-player_two.move(game.board[1][2]);
+player_two.move(game.board[1][4]);
+//player_two.move(game.board[1][2]);
+player.hv_move_val(game.board[1][4]);
 //console.log(player);
-*/
 
-game = new Board(map_one);
-console.log(game.roster_b);
+
+//game = new Board(map_one);
+//console.log(game.roster_b);

@@ -294,7 +294,7 @@ class Piece {
               };
               return true;
         } else if (space.x < this.x) {
-            for(let i = this.x - 1; i < space.x - 1; i--) {
+            for(let i = this.x - 1; i > space.x - 1; i--) {
               if(this.pass(game.board[this.y][i])) {
                 if(this.capture_check(game.board[this.y][i])) {
                   console.log('can capture');
@@ -324,7 +324,7 @@ class Piece {
             };
             return true;
           } else if (space.y < this.y) {
-              for(let i = this.y - 1; i < space.y - 1; i--) {
+              for(let i = this.y - 1; i > space.y - 1; i--) {
                 if(this.pass(game.board[i][this.x])) {
                   if(this.capture_check(game.board[i][this.x])) {
                     console.log('can capture');
@@ -369,7 +369,7 @@ class Piece {
               };
               return true;
         } else if (space.x < this.x && space.y < this.y) {
-            for(let i = this.x - 1, j = this. y - 1; i < space.x - 1; i--,j--) {
+            for(let i = this.x - 1, j = this. y - 1; i > space.x - 1; i--,j--) {
               if(this.pass(game.board[j][i])) {
                 if(this.capture_check(game.board[j][i])) {
                   console.log('can capture');
@@ -384,7 +384,7 @@ class Piece {
             };
             return true;
         } else if (space.x > this.x && space.y < this.y) {
-            for(let i = this.y - 1, j = this.x + 1; i < space.y - 1; i--, j++) {
+            for(let i = this.y - 1, j = this.x + 1; j > space.y - 1; i--, j++) {
               if(this.pass(game.board[j][i])) {
                 if(this.capture_check(game.board[j][i])) {
                   console.log('can capture');
@@ -399,7 +399,7 @@ class Piece {
             };
             return true;
           } else if (space.x < this.x && space.y > this.y) {
-              for(let i = this.y + 1, j = this.x -1; i < space.y + 1; i++, j--) {
+              for(let i = this.y + 1, j = this.x -1; j < space.y + 1; i++, j--) {
                 if(this.pass(game.board[j][i])) {
                   if(this.capture_check(game.board[j][i])) {
                     console.log('can capture');
@@ -472,13 +472,13 @@ class Squire extends Piece {
 
 game = new Board(map_one);
 console.log(game.board);
-player = new Piece(knight,1,1,1);
+player = new Piece(knight,3,3,1);
 console.log(player);
 player_two = new Archer(archer,1,4,1);
 console.log(player_two);
-player_two.move(game.board[1][4]);
+player_two.move(game.board[1][1]);
 //player_two.move(game.board[1][2]);
-player.d_move_val(game.board[6][6]);
+player.d_move_val(game.board[1][1]);
 //console.log(player);
 
 

@@ -231,7 +231,7 @@ class Piece {
     } else if(space.terrain === 3){
         console.log('Cannot enter mountains')
         return false;
-    } else if(this.type === true && space.terrain === 2){
+    } else if(this.mounted === true && space.terrain === 2){
         console.log('Mounted units cannot enter rough terrain');
         return false;
     }
@@ -257,6 +257,17 @@ class Piece {
       const yd = Math.abs(this.y - space.y);
 
       if(xd <= this.straight || yd <= this.stright) {
+        return true;
+      } else {
+        return false;
+      };
+    };
+
+    //within diagonal range check;
+    check_d_range(space) {
+      const xd = Math.abs(this.x - space.x);
+
+      if(xd <= this.straight) {
         return true;
       } else {
         return false;
@@ -337,6 +348,81 @@ class Piece {
       };
     };
 
+
+    //validate a diagonal move;
+    //Would like to refactor this. The function is the same thing wirtten 4 times each time tweaked to account for position of move space relative to piece
+    d_move_val(space) {
+      if(this.check_d_range(space)) {
+        if(space.x > this.x && space.y > this.y) {
+          for(let i = this.x + 1, j = this. y + 1; i < space.x + 1; i++,j++) {
+            if(this.pass(game.board[j][i])) {
+              if(this.capture_check(game.board[j][i])) {
+                console.log('can capture');
+                return false;
+              } else {
+                console.log('Pass');
+              };
+              } else {
+                  console.log('test failed');
+                  return false;
+                };
+              };
+              return true;
+        } else if (space.x < this.x && space.y < this.y) {
+            for(let i = this.x - 1, j = this. y - 1; i < space.x - 1; i--,j--) {
+              if(this.pass(game.board[j][i])) {
+                if(this.capture_check(game.board[j][i])) {
+                  console.log('can capture');
+                  return false;
+                } else {
+                  console.log('Pass');
+                };
+            } else {
+                console.log('test failed');
+                return false;
+                };
+            };
+            return true;
+        } else if (space.x > this.x && space.y < this.y) {
+            for(let i = this.y - 1, j = this.x + 1; i < space.y - 1; i--, j++) {
+              if(this.pass(game.board[j][i])) {
+                if(this.capture_check(game.board[j][i])) {
+                  console.log('can capture');
+                  return false;
+                } else {
+                  console.log('Pass');
+                };
+              } else {
+                  console.log('test failed');
+                  return false;
+              };
+            };
+            return true;
+          } else if (space.x < this.x && space.y > this.y) {
+              for(let i = this.y + 1, j = this.x -1; i < space.y + 1; i++, j--) {
+                if(this.pass(game.board[j][i])) {
+                  if(this.capture_check(game.board[j][i])) {
+                    console.log('can capture');
+                    return false;
+                } else {
+                  console.log('Pass');
+                };
+              } else {
+                    console.log('test failed');
+                    return false;
+                };
+              };
+              return true;
+          } else {
+            console.log('Error in move validation');
+            return false;
+          };
+        } else {
+          console.log('Out of range');
+          return false;
+      };
+    };
+
     //capture a space
     capture(space) {
       //add some code to remove the piece
@@ -392,7 +478,7 @@ player_two = new Archer(archer,1,4,1);
 console.log(player_two);
 player_two.move(game.board[1][4]);
 //player_two.move(game.board[1][2]);
-player.hv_move_val(game.board[1][4]);
+player.d_move_val(game.board[6][6]);
 //console.log(player);
 
 

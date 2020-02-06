@@ -463,8 +463,83 @@ class Archer extends Piece {
 };
 
 class Squire extends Piece {
-  //will need to override the whole pass function that the other pieces use to account for its mandatory horizontal and diagonal movement
+
+  mval(space){
+    if(pass(game.board[j][i+1])){
+      if(pass(game.board[j+1][i+2])){
+        return true;
+      } else if(pass(game.board[j-1][i+2])) {
+          return true;
+      } else {
+          return false;
+      }
+    } else if(pass(game.board[j][i-1])){
+        if(pass(game.board[j+1][i-2])){
+          return true;
+        } else if(pass(game.board[j-1][i-2])) {
+            return true;
+        } else {
+            return false;
+        }
+    } else if(pass(game.board[j+1][i])){
+        if(pass(game.board[j+2][i+1])){
+          return true;
+        } else if(pass(game.board[j+2][i-1])) {
+            return true;
+          } else {
+            return false;
+        }
+    } else if(pass(game.board[j-1][i])){
+        if(pass(game.board[j-2][i+1])){
+          return true;
+        } else if(pass(game.board[j-2][i-1])) {
+            return true;
+          } else {
+            return false;
+        }
+    } else if((pass(game.board[j+1][i+1])){
+        if(pass(game.board[j+2][i+1])){
+          return true;
+        } else if(pass(game.board[j+1][i+2])) {
+            return true;
+          } else {
+            return false;
+      }
+    } else if((pass(game.board[j+1][i-1])){
+        if(pass(game.board[j+2][i-1])){
+          return true;
+        } else if(pass(game.board[j+1][i-2])) {
+            return true;
+          } else {
+            return false;
+          }
+      } else if((pass(game.board[j-1][i+1])){
+        if(pass(game.board[j-2][i+1])){
+          return true;
+        } else if(pass(game.board[j-1][i+2])) {
+            return true;
+          } else {
+              return false;
+            }
+      } else if((pass(game.board[j-1][i-1])){
+          if(pass(game.board[j-2][i-1])){
+              return true;
+            } else if(pass(game.board[j-1][i-2])) {
+                  return true;
+                  } else {
+                      return false;
+                  }
+        } else {
+            return false;
+        }
   };
+
+  move(space){
+    if(mval(space)){
+      //check if we can capture or if we can't, capture if we can, regular move if we can't
+    }
+  };
+}
 
 
 //Test functions

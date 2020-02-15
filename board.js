@@ -497,7 +497,7 @@ class Squire extends Piece {
           } else {
             return false;
         }
-    } else if((pass(game.board[j+1][i+1])){
+    } else if(pass(game.board[j+1][i+1])){
         if(pass(game.board[j+2][i+1])){
           return true;
         } else if(pass(game.board[j+1][i+2])) {
@@ -505,7 +505,7 @@ class Squire extends Piece {
           } else {
             return false;
       }
-    } else if((pass(game.board[j+1][i-1])){
+    } else if(pass(game.board[j+1][i-1])){
         if(pass(game.board[j+2][i-1])){
           return true;
         } else if(pass(game.board[j+1][i-2])) {
@@ -513,7 +513,7 @@ class Squire extends Piece {
           } else {
             return false;
           }
-      } else if((pass(game.board[j-1][i+1])){
+      } else if(pass(game.board[j-1][i+1])){
         if(pass(game.board[j-2][i+1])){
           return true;
         } else if(pass(game.board[j-1][i+2])) {
@@ -521,7 +521,7 @@ class Squire extends Piece {
           } else {
               return false;
             }
-      } else if((pass(game.board[j-1][i-1])){
+      } else if(pass(game.board[j-1][i-1])){
           if(pass(game.board[j-2][i-1])){
               return true;
             } else if(pass(game.board[j-1][i-2])) {

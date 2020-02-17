@@ -469,57 +469,25 @@ class Squire extends Piece {
     const j = this.y;
 
     if(space === game.board[i+1][j+2]){
-      if((this.pass(game.board[i][j+1])) && (this.pass(game.board[i+1][j+2]))) {
-        return true;
-      } else{
-        return false;
-      }
+      return ((this.pass(game.board[i][j+1])) && (this.pass(game.board[i+1][j+2]))) ? true : false;
       } else if(space === game.board[i-1][j+2]){
-          if((this.pass(game.board[i][j+1])) && (this.pass(game.board[i-1][j+2]))) {
-            return true;
-          } else{
-            return false;
-          }
+          return ((this.pass(game.board[i][j+1])) && (this.pass(game.board[i-1][j+2]))) ? true : false;
       } else if(space === game.board[i+1][j-2]){
-          if((this.pass(game.board[i][j-1])) && (this.pass(game.board[i+1][j-2]))) {
-            return true;
-          } else{
-            return false;
-          }
+          return ((this.pass(game.board[i][j-1])) && (this.pass(game.board[i+1][j-2]))) ? true : false;
       } else if(space === game.board[i-1][j-2]){
-          if((this.pass(game.board[i][j-1])) && (this.pass(game.board[i-1][j-2]))) {
-            return true;
-          } else{
-            return false;
-          }
+          return ((this.pass(game.board[i][j-1])) && (this.pass(game.board[i-1][j-2]))) ? true : false;
       } else if(space === game.board[i+2][j+1]){
-          if((this.pass(game.board[i+1][j])) && (this.pass(game.board[i+2][j+1]))) {
-            return true;
-          } else{
-            return false;
-          }
-        } else if(space === game.board[i+2][j-1]){
-            if((this.pass(game.board[i+1][j])) && (this.pass(game.board[i+2][j-1]))) {
-              return true;
-            } else{
-              return false;
-            }
-        } else if(space === game.board[i-2][j+1]){
-            if((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j+1]))) {
-              return true;
-            } else{
-              return false;
-            }
-        } else if(space === game.board[i-2][j-1]){
-            if((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j-1]))) {
-              return true;
-            } else{
-              return false;
-            }
-        } else {
+          return ((this.pass(game.board[i+1][j])) && (this.pass(game.board[i+2][j+1]))) ? true : false;
+      } else if(space === game.board[i+2][j-1]){
+          return ((this.pass(game.board[i+1][j])) && (this.pass(game.board[i+2][j-1]))) ? true : false;
+      } else if(space === game.board[i-2][j+1]){
+          return((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j+1]))) ? true : false;
+      } else if(space === game.board[i-2][j-1]){
+          return ((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j-1]))) ? true : false;
+      } else {
           return false;
-        }
       }
+    }
   };
 /*
   move(space){

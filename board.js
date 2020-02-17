@@ -465,95 +465,83 @@ class Archer extends Piece {
 class Squire extends Piece {
 
   mval(space){
-    if(pass(game.board[j][i+1])){
-      if(pass(game.board[j+1][i+2])){
+    const i = this.x;
+    const j = this.y;
+
+    if(space === game.board[i+1][j+2]){
+      if((this.pass(game.board[i][j+1])) && (this.pass(game.board[i+1][j+2]))) {
         return true;
-      } else if(pass(game.board[j-1][i+2])) {
-          return true;
-      } else {
-          return false;
+      } else{
+        return false;
       }
-    } else if(pass(game.board[j][i-1])){
-        if(pass(game.board[j+1][i-2])){
-          return true;
-        } else if(pass(game.board[j-1][i-2])) {
+      } else if(space === game.board[i-1][j+2]){
+          if((this.pass(game.board[i][j+1])) && (this.pass(game.board[i-1][j+2]))) {
             return true;
-        } else {
-            return false;
-        }
-    } else if(pass(game.board[j+1][i])){
-        if(pass(game.board[j+2][i+1])){
-          return true;
-        } else if(pass(game.board[j+2][i-1])) {
-            return true;
-          } else {
-            return false;
-        }
-    } else if(pass(game.board[j-1][i])){
-        if(pass(game.board[j-2][i+1])){
-          return true;
-        } else if(pass(game.board[j-2][i-1])) {
-            return true;
-          } else {
-            return false;
-        }
-    } else if(pass(game.board[j+1][i+1])){
-        if(pass(game.board[j+2][i+1])){
-          return true;
-        } else if(pass(game.board[j+1][i+2])) {
-            return true;
-          } else {
-            return false;
-      }
-    } else if(pass(game.board[j+1][i-1])){
-        if(pass(game.board[j+2][i-1])){
-          return true;
-        } else if(pass(game.board[j+1][i-2])) {
-            return true;
-          } else {
+          } else{
             return false;
           }
-      } else if(pass(game.board[j-1][i+1])){
-        if(pass(game.board[j-2][i+1])){
-          return true;
-        } else if(pass(game.board[j-1][i+2])) {
+      } else if(space === game.board[i+1][j-2]){
+          if((this.pass(game.board[i][j-1])) && (this.pass(game.board[i+1][j-2]))) {
             return true;
-          } else {
+          } else{
+            return false;
+          }
+      } else if(space === game.board[i-1][j-2]){
+          if((this.pass(game.board[i][j-1])) && (this.pass(game.board[i-1][j-2]))) {
+            return true;
+          } else{
+            return false;
+          }
+      } else if(space === game.board[i+2][j+1]){
+          if((this.pass(game.board[i+1][j])) && (this.pass(game.board[i+2][j+1]))) {
+            return true;
+          } else{
+            return false;
+          }
+        } else if(space === game.board[i+2][j-1]){
+            if((this.pass(game.board[i+1][j])) && (this.pass(game.board[i+2][j-1]))) {
+              return true;
+            } else{
               return false;
             }
-      } else if(pass(game.board[j-1][i-1])){
-          if(pass(game.board[j-2][i-1])){
+        } else if(space === game.board[i-2][j+1]){
+            if((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j+1]))) {
               return true;
-            } else if(pass(game.board[j-1][i-2])) {
-                  return true;
-                  } else {
-                      return false;
-                  }
+            } else{
+              return false;
+            }
+        } else if(space === game.board[i-2][j-1]){
+            if((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j-1]))) {
+              return true;
+            } else{
+              return false;
+            }
         } else {
-            return false;
+          return false;
         }
+      }
   };
-
+/*
   move(space){
     if(mval(space)){
       //check if we can capture or if we can't, capture if we can, regular move if we can't
     }
   };
 }
-
+*/
 
 //Test functions
 
 
 game = new Board(map_one);
 console.log(game.board);
-player = new Piece(knight,3,3,1);
+player = new Squire(squire,3,3,1);
 console.log(player);
-player_two = new Archer(archer,1,4,1);
+player_two = new Archer(archer,3,5,1);
 console.log(player_two);
 player_two.move(game.board[1][1]);
 //player_two.move(game.board[1][2]);
-player.d_move_val(game.board[1][1]);
+player.mval(game.board[1][1]);
 //console.log(player);
 
 

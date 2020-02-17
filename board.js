@@ -485,18 +485,26 @@ class Squire extends Piece {
       } else if(space === game.board[i-2][j-1]){
           return ((this.pass(game.board[i-1][j])) && (this.pass(game.board[i-2][j-1]))) ? true : false;
       } else {
+          console.log('Move validation failed')
           return false;
       }
     }
-  };
-/*
-  move(space){
-    if(mval(space)){
-      //check if we can capture or if we can't, capture if we can, regular move if we can't
+
+    move(space){
+      if((this.mval(space)) && (this.capture_check(space))) {
+        capture(space);
+        console.log(`[${space.x},${space.y}] Captured`);
+      } else if (this.mval(space)) {
+          this.occupy(space);
+          console.log(`Moved to [${space.x},${space.y}]`);
+      } else {
+        this.pass(space);
+        console.log('Move invalid');
+      }
     }
+
   };
-}
-*/
+
 
 //Test functions
 
@@ -507,9 +515,9 @@ player = new Squire(squire,3,3,1);
 console.log(player);
 player_two = new Archer(archer,3,5,1);
 console.log(player_two);
-player_two.move(game.board[1][1]);
+player_two.move(game.board[4][5]);
 //player_two.move(game.board[1][2]);
-player.mval(game.board[1][1]);
+player.move(game.board[4][5]);
 //console.log(player);
 
 
